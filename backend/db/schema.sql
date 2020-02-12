@@ -1,6 +1,3 @@
-
-
-
 DROP DATABASE IF EXISTS broken_project;
 CREATE DATABASE broken_project; 
 
