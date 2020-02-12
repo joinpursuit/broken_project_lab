@@ -72,7 +72,6 @@ const updateCar = async (req, res, next) => {
       [req.body.brand, req.body.model, req.body.year, req.body.owner_id, req.params.id]
     );
 
-    
     res.json({
       status: "success",
       message: "updated one car",
@@ -97,8 +96,7 @@ const updateCarFeature = async (req, res, next) => {
     if (req.body.year && req.body.year.toLowerCase() === "null") {
       req.body.year = null;
     }
-
-    db.none(
+   await db.none(
       "UPDATE cars SET " + queryString + " WHERE id=" + req.params.id,
       req.body
     );
