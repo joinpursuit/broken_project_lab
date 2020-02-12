@@ -5,7 +5,7 @@ const getAllCars = async (req, res, next) => {
     const cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
-      message: "all users",
+      message: "all cars",
       payload: cars
     });
   } catch (err) {

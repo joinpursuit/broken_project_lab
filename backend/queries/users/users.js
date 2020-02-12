@@ -6,7 +6,7 @@ const getAllUsers = async (req, res, next) => {
     res.json({
       status: "success",
       message: "all users",
-      users
+      payload: users
     });
   } catch (err) {
     next(err);

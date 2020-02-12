@@ -8,7 +8,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
-const PORT = 6000; 
+const PORT = 3000; 
 const carsRouter = require('./routes/cars/cars');
 const usersRouter = require('./routes/users/users');
 
