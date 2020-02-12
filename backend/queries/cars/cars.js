@@ -2,14 +2,13 @@ const db = require("../../db/index");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    let cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
       message: "all users",
-      users
+      cars
     });
   } catch (err) {
-    // next(err);
     res.json({
       status: "error",
       payload: null,
@@ -20,21 +19,25 @@ const getAllCars = async (req, res, next) => {
 
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let car = await db.one("SELECT * FROM cars WHERE id=$1 RETURNING *", req.params.id);
     res.json({
       status: "success",
-      car,
-      message: "Received ONE CAR!"
+      message: "Received ONE CAR!",
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      payload: null,
+      message: err
+    });
   }
 };
 
 const createCar = async (req, res, next) => {
   try {
     await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
+      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${model}, ${year}, ${owner_id})",
       req.body
     );
     res.json({
@@ -50,9 +53,9 @@ const createCar = async (req, res, next) => {
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
+    let result = await db.none("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the car",
@@ -100,7 +103,7 @@ const updateCarFeature = async (req, res, next) => {
       req.body.year = null;
     }
 
-    db.none(
+    await db.none(
       "UPDATE cars SET " + queryString + " WHERE id=" + req.params.id,
       req.body
     );
@@ -114,4 +117,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { getAllCars, getSingleCar, createCar, deleteCar, updateCar, updateCarFeature };
