@@ -1,4 +1,4 @@
-const userRouter = require("express").Router;
+const userRouter = require("express").Router();
 const {
   getAllUsers,
   getSingleUser,
@@ -13,4 +13,4 @@ userRouter.delete("/:id", deleteUser);
 userRouter.post("/", createUser)
 userRouter.use("/", userCarRouter)
 
-module.exports = {userRouter};
+module.exports = userRouter;
