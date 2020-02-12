@@ -12,7 +12,7 @@ const usersRouter = require('./routes/users/users');
 
 
 app.use("/cars", carsRouter);
-app.use("/users", usersRouter)
+app.use("/users", usersRouter);
 
 app.use((err, req, res, next) => {
     res.status(500).json({
@@ -21,4 +21,4 @@ app.use((err, req, res, next) => {
 })
 
 
-app.listen(PORT, () => console.log("Listening"));
+app.listen(PORT, () => console.log("Listening on port: ", PORT));

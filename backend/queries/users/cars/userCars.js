@@ -9,7 +9,7 @@ const allCarsForOneUser = async (req, res, next) => {
             message: "All cars for ONE user",
             cars
         })
-    } catch (error) {
+    } catch (err) {
         next(err);        
     }
 
