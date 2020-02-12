@@ -40,6 +40,6 @@ select.addEventListener("change", (e) => {
         fetchData(`http://localhost:3000/users/cars/${e.target.value}`, fillUlWithCars, carsForOneUser)
     })
     
-    
+fetchData("http://localhost:3000/cars", fillUlWithCars, allCars); 
 fetchData("http://localhost:3000/users", fillSelectBar, select);
 
