@@ -1,4 +1,4 @@
-const db = require("../../../db/index");
+const db = require("../../db/index");
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -6,7 +6,7 @@ const getAllUsers = async (req, res, next) => {
     res.json({
       status: "success",
       message: "all users",
-      users
+      body:users
     });
   } catch (err) {
     next(err);
@@ -18,8 +18,8 @@ const getSingleUser = async (req, res, next) => {
     let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
     res.json({
       status: "success",
-      user,
-      message: "Received ONE user!"
+      message: "Received ONE user!",
+      body:user
     });
   } catch (err) {
     next(err);
