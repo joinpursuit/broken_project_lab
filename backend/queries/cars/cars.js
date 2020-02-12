@@ -23,8 +23,8 @@ const getSingleCar = async (req, res, next) => {
     let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
     res.json({
       status: "success",
-      car,
-      message: "Received ONE CAR!"
+      message: "Received ONE CAR!",
+      payload: car
     });
   } catch (err) {
     next(err);
@@ -35,9 +35,8 @@ const createCar = async (req, res, next) => {
   try {
     await db.none(
       "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
-      req.body
-    );
-    res.json({
+      req.body );
+      res.json({
       status: "succss",
       message: "New car added"
     });
@@ -78,7 +77,7 @@ const updateCar = async (req, res, next) => {
     res.json({
       status: "success",
       message: "updated one car",
-      car
+      payload: car
     });
   } catch (err) {
     next(err);
@@ -114,4 +113,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { createCar, deleteCar, updateCar, updateCarFeature, getAllCars, getSingleCar };

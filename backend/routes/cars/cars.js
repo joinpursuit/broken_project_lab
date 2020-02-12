@@ -4,6 +4,7 @@ const {
   getSingleCar,
   createCar,
   deleteCar,
+  updateCar,
   updateCarFeature
 } = require("../../queries/cars/cars");
 

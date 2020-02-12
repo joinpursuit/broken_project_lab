@@ -13,4 +13,4 @@ userRouter.delete("/:id", deleteUser);
 userRouter.post("/", createUser)
 userRouter.use("/id/cars", userCarRouter)
 
-module.exports = {userRouter};
+module.exports = userRouter;
