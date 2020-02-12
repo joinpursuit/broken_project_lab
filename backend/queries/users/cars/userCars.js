@@ -9,10 +9,14 @@ const allCarsForOneUser = async (req, res, next) => {
             message: "All cars for ONE user",
             cars
         })
-    } catch (error) {
-        next(err);        
+    } catch (err) {
+        res.json({
+            status: "fail", 
+            message: "Did not receive cars for ONE user",
+            
+    })
+    next(err);        
     }
-
 }
 
 module.exports = { allCarsForOneUser };
