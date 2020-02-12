@@ -9,10 +9,10 @@ const {
 } = require("../../queries/cars/cars");
 
 carsRouter.get("/", getAllCars);
-carsRouter.get("/cars/id", getSingleCar);
-carsRouter.post("/cars/", createCar);
-carsRouter.delete("/cars/:id", deleteCar);
-carsRouter.patch("/cars/:id", updateCar);
-carsRouter.patch("/cars/:id", updateCarFeature);
+carsRouter.get("/:id", getSingleCar);
+carsRouter.post("/", createCar);
+carsRouter.delete("/:id", deleteCar);
+carsRouter.patch("/:id", updateCar);
+carsRouter.put("/:id", updateCarFeature);
 
 module.exports = carsRouter;

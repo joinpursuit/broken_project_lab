@@ -1,44 +1,44 @@
-const db = require("../../db/index");
+const db = require('../../db/index');
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = await db.any("SELECT * FROMS cars");
+    const cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
-      message: "all users",
-      users
-    });
+      message: "all cars",
+      payload: cars   
+      })
   } catch (err) {
-    // next(err);
     res.json({
       status: "error",
       payload: null,
       message: err
-    });
+    })
+   // next(err);
   }
 };
 
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let car = await db.one("SELECT * FROM cars WHERE id=$1", [req.params.id]);
     res.json({
       status: "success",
       car,
       message: "Received ONE CAR!"
     });
   } catch (err) {
-    next(err);
+      next(err);
   }
 };
 
 const createCar = async (req, res, next) => {
   try {
     await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
-      req.body
-    );
+      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${model},${year}, ${owner_id} )"
+      ,req.body
+      );
     res.json({
-      status: "succss",
+      status: "success",
       message: "New car added"
     });
   } catch (err) {

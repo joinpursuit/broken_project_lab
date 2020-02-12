@@ -2,7 +2,7 @@ const db = require("../../db/index");
 
 const getAllUsers = async (req, res, next) => {
   try {
-    const users = await db.any("SELECT * FROM users");
+    let users = await db.any("SELECT * FROM users");
     res.json({
       status: "success",
       message: "all users",
