@@ -104,18 +104,20 @@ const updateCarFeature = async (req, res, next) => {
     if (req.body.year && req.body.year.toLowerCase() === "null") {
       req.body.year = null;
     }
-
-    db.none(
+    db.one(
       "UPDATE cars SET " + queryString + " WHERE id=" + req.params.id,
       req.body
     );
-
     res.json({
       status: "success",
       message: "You Updated a CAR!"
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to update car",
+      payload: null
+    })
   }
 };
 
