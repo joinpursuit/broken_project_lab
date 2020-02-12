@@ -3,7 +3,8 @@ const db = require("../../../db/index");
 
 const allCarsForOneUser = async (req, res, next) => {
     try {
-        const cars = await db.any("SELECT * FROM cars JOIN users ON users.id = cars.owner_id WHERE cars.owner_id = $1", req.params.id)
+        const cars = await db.any(`SELECT * FROM cars JOIN users ON cars.owner_id = users.id WHERE users.id =${req.params.id}`);
+        console.log(cars)
         res.json({
             status: "success", 
             message: "All cars for ONE user",
