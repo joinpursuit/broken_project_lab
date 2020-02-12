@@ -6,7 +6,7 @@ const getAllCars = async (req, res, next) => {
     res.json({
       status: "success",
       message: "all users",
-      users
+      users: cars
     });
   } catch (err) {
     // next(err);
@@ -50,7 +50,7 @@ const createCar = async (req, res, next) => {
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
     let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
@@ -114,4 +114,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { getAllCars, getSingleCar, createCar, deleteCar, updateCar, updateCarFeature };
