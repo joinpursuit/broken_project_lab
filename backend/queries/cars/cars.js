@@ -2,25 +2,26 @@ const db = require("../../db/index");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    const cars = await db.any("SELECT * FROM cars")
     res.json({
       status: "success",
-      message: "all users",
-      users
+      message: "all cars",
+      cars
     });
   } catch (err) {
-    // next(err);
+    console.log(err)
     res.json({
       status: "error",
       payload: null,
       message: err
     });
+    next(err);
   }
 };
 
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let car = await db.one("SELECT * FROM users WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       car,
@@ -34,11 +35,11 @@ const getSingleCar = async (req, res, next) => {
 const createCar = async (req, res, next) => {
   try {
     await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
-      req.body
-    );
+      "INSERT INTO cars (brand, model, year, owner_id) VALUES (${brand}, ${model}, ${year}, ${owner_id})",
+      req.body)
+
     res.json({
-      status: "succss",
+      status: "success",
       message: "New car added"
     });
   } catch (err) {
@@ -52,7 +53,7 @@ const createCar = async (req, res, next) => {
 
 const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
+    let result = await db.none("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the car",
@@ -66,13 +67,13 @@ const deleteCar = async (req, res, next) => {
 const updateCar = async (req, res, next) => {
   try {
     let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
+      "UPDATE cars SET id = ${id}, brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} WHERE id = ${id} RETURNING *",
       {
-        owner_id: parseInt(req.body.owner_id),
+        id: parseInt(req.params.id),
         brand: req.body.brand,
-        year: parseInt(req.body.year),
         model: req.body.model,
-        id: parseInt(req.params.id)
+        year: parseInt(req.body.year),
+        owner_id: parseInt(req.body.owner_id)
       }
     );
     res.json({
@@ -90,6 +91,7 @@ const updateCarFeature = async (req, res, next) => {
     let queryStringArray = [];
     let bodyKeys = Object.keys(req.body);
     bodyKeys.forEach(key => {
+      console.log(key)
       queryStringArray.push(key + "=${" + key + "}");
     });
     let queryString = queryStringArray.join(", ");
