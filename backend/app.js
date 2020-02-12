@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body_parser');
+const bodyParser = require('body-parser');
 
 const PORT = 6000; 
 const carsRouter = require('./queries/cars/cars');
