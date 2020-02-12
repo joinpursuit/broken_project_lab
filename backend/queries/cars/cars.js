@@ -2,29 +2,29 @@ const db = require("../../db/index");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    const cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
       message: "all users",
-      users
+      payload: cars
     });
   } catch (err) {
-    // next(err);
     res.json({
       status: "error",
-      payload: null,
-      message: err
+      message: err,
+      payload: null
     });
+    next(err);
   }
 };
 
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let car = await db.one("SELECT * FROM cars WHERE id=$1", [req.params.id]);
     res.json({
       status: "success",
-      car,
-      message: "Received ONE CAR!"
+      message: "Received ONE CAR!",
+      payload: car
     });
   } catch (err) {
     next(err);
@@ -34,25 +34,25 @@ const getSingleCar = async (req, res, next) => {
 const createCar = async (req, res, next) => {
   try {
     await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
+      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${model}, ${year}, ${owner_id} )",
       req.body
     );
     res.json({
       status: "succss",
-      message: "New car added"
+      message: "New car added",
     });
   } catch (err) {
     res.json({
       status: "error",
-      payload: null,
-      message: err
+      message: err,
+      payload: null
     });
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
+    let result = await db.none("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the car",
@@ -65,8 +65,7 @@ const deleteCar = (req, res, next) => {
 
 const updateCar = async (req, res, next) => {
   try {
-    let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
+    let car = await db.one('UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} WHERE id=${id} RETURNING *', 
       {
         owner_id: parseInt(req.body.owner_id),
         brand: req.body.brand,
@@ -114,4 +113,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { getSingleCar, getAllCars, createCar, deleteCar, updateCar, updateCarFeature };
