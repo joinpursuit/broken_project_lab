@@ -15,7 +15,6 @@ const fetchData = async(url, cb, domEl) => {
 
 
 const fillUlWithCars = (data, domEl) => {
-debugger
     domEl.innerHTML = "";
     data.cars.forEach(el => {
         let li = document.createElement("li");
@@ -36,7 +35,7 @@ const fillSelectBar =  (data, domEl) => {
 }
     select.addEventListener("change", (e) => {
 
-        fetchData(`http://localhost:3000/users/${e.target.value}/cars`, fillUlWithCars, carsForOneUser)
+        fetchData(`http://localhost:3000/users/cars/${e.target.value}`, fillUlWithCars, carsForOneUser)
     })
     
     
