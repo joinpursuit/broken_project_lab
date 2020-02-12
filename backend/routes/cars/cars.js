@@ -4,8 +4,8 @@ const  { createCar, deleteCar, updateCar, updateCarFeature, getAllCars, getSingl
 carsRouter.get("/", getAllCars);
 carsRouter.get("/:id", getSingleCar);
 carsRouter.post("/", createCar);
-carsRouter.delete("/cars/:id", deleteCar);
-carsRouter.put("/cars/:id", updateCar);
-carsRouter.patch("/cars/:id", updateCarFeature);
+carsRouter.delete("/:id", deleteCar);
+carsRouter.put("/:id", updateCar);
+carsRouter.patch("/:id", updateCarFeature);
 
 module.exports = carsRouter;

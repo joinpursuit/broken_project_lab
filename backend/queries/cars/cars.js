@@ -2,7 +2,7 @@ const db = require("../../db/index")
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    const cars = db.any("SELECT * FROM cars");
     res.json({
       status: "success",
       message: "all users",
@@ -33,7 +33,7 @@ const getSingleCar = async (req, res, next) => {
 
 const createCar = async (req, res, next) => {
   try {
-    let newCar = await db.none(
+    let newCar = await db.one(
       "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${model}, ${year}, ${owner_id} )RETURNING *",
       req.body
     );
@@ -53,11 +53,11 @@ const createCar = async (req, res, next) => {
 
 const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.one("DELETE FROM cars WHERE id=$1", req.params.id);
+    let result = await db.none("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the car",
-      result: result
+      body: result
     });
   } catch (err) {
     next(err);
@@ -65,24 +65,23 @@ const deleteCar = async (req, res, next) => {
 };
 
 const updateCar = async (req, res, next) => {
+  let info = req.query
+  info["id"] = req.params.id
   try {
     let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
-      {
-        owner_id: parseInt(req.body.owner_id),
-        brand: req.body.brand,
-        year: parseInt(req.body.year),
-        model: req.body.model,
-        id: parseInt(req.params.id)
-      }
+      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} WHERE id = ${id}  RETURNING *", info
     );
     res.json({
       status: "success",
       message: "updated one car",
-      car
+      body: car
     });
   } catch (err) {
-    next(err);
+    res.status({
+      status:"failure",
+      message:"Car couldn't get updated",
+      body: null
+    })
   }
 };
 

@@ -15,7 +15,7 @@ const getAllUsers = async (req, res, next) => {
 
 const getSingleUser = async (req, res, next) => {
   try {
-    let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
+    let user = await db.one(`SELECT * FROM users WHERE id=$1`, req.params.id);
     res.json({
       status: "success",
       message: "Received ONE user!",
@@ -29,10 +29,11 @@ const getSingleUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
-    await db.none("DELETE FROM pets WHERE id=$1", req.params.id);
+   let destroy =  await db.none("DELETE FROM users WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the user",
+      body: destroy
     });
   } catch (err) {
     next(err);
@@ -48,13 +49,27 @@ const createUser = async (req, res, next) => {
     res.json({
       status: "succss",
       message: "New user added",
-      user
+      body: user
     });
   } catch (err) {
     next(err);
   }
 };
 
+const allCarsForOneUser = async (req, res, next) => {
+  try {
+      const cars = await db.any("SELECT * FROM cars WHERE owner_id =$1", req.params.id)
+      res.json({
+          status: "success", 
+          message: "All cars for ONE user",
+          body: cars
+      })
+  } catch (error) {
+      next(err);        
+  }
+
+}
 
 
-module.exports = { getAllUsers, getSingleUser, deleteUser, createUser };
+
+module.exports = { getAllUsers, getSingleUser, deleteUser, createUser ,allCarsForOneUser};
