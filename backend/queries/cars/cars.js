@@ -2,14 +2,14 @@ const db = require("../../db/index.js");
 
 const getAllCars = async (req, res, next) => {
   try {
-    await db.any('SELECT * FROM cars');
+    let cars = await db.any('SELECT * FROM cars');
     res.json({
       status: "success",
       message: "all users",
       cars
     });
   } catch (err) {
-    next(err);
+    // next(err);
     res.json({
       status: "error",
       payload: null,
