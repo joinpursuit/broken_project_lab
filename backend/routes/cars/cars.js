@@ -4,14 +4,15 @@ const {
   getSingleCar,
   createCar,
   deleteCar,
-  updateCarFeature
+  updateCarFeature,
+  updateCar
 } = require("../../queries/cars/cars");
 
 carsRouter.get("/", getAllCars);
 carsRouter.get("/:id", getSingleCar);
 carsRouter.post("/", createCar);
 carsRouter.delete("/:id", deleteCar);
-// carsRouter.put("/cars/:id", updateCarFeature);
+carsRouter.put("/:id", updateCar);
 // carsRouter.patch("/cars/:id", updateCarFeature);
 
 module.exports = carsRouter;

@@ -72,23 +72,21 @@ const deleteCar = async (req, res, next) => {
 
 const updateCar = async (req, res, next) => {
   try {
+    let info = req.query
+    info["id"] = req.params.id
     let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
-      {
-        owner_id: parseInt(req.body.owner_id),
-        brand: req.body.brand,
-        year: parseInt(req.body.year),
-        model: req.body.model,
-        id: parseInt(req.params.id)
-      }
-    );
+      "UPDATE cars SET brand = ${brand}, model = ${model}, year = ${year}, owner_id = ${owner_id} WHERE id = ${id} RETURNING *", info);
     res.json({
       status: "success",
       message: "updated one car",
-      car
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "success",
+      message: "Unable to update car",
+      payload: null
+    })
   }
 };
 
