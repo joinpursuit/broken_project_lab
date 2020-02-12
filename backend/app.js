@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express(); 
 app.use(cors());
-const port = 6000; 
+const port = 3000; 
 
 
 const carsRouter = require('./routes/cars/cars');
@@ -16,7 +16,7 @@ app.use('/cars', carsRouter);
 app.use('/users', usersRouter)
 
 app.use((err, req, res, next) => {
-    res.status(500).json({
+    res.status(200).json({
         err
     })
 })
