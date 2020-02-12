@@ -1,0 +1,37 @@
+body{
+    display: flex;
+    flex-direction: column;
+    background: url('https://www.pixelstalk.net/wp-content/uploads/2016/08/1080p-Sport-Car-Background.jpg');
+    color: darkblue;
+}
+
+#allCars {
+    display: flex;
+    flex-direction: row;
+    opacity: 65%;
+    background-color: lightblue;
+    border-radius: 5px;
+    width: 70vw;
+    margin: auto;
+}
+#carsForOneuser{
+    display: flex;
+    flex-direction: row;
+    opacity: 65%;
+    background-color: lightblue;
+    border-radius: 5px;
+    width: 70vw;
+    margin: auto;
+    margin-top: 5%;
+}
+select{
+    width: 10vw;
+    margin: auto;
+    margin-top: 5%;
+}
+ul {
+    list-style-type: none;
+   }
+li {
+    padding: 5%;
+}
