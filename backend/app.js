@@ -9,9 +9,9 @@ const userRouter = require('./routes/users/users');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use(cors());
 app.use('/cars', carsRouter);
 app.use('/users', userRouter);
-app.use(cors());
 
 app.use((err, req, res, next) => {
 
