@@ -54,14 +54,19 @@ const createCar = async (req, res, next) => {
 
 const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
+    let id = req.params.id
+    let car = await db.one("DELETE FROM cars WHERE id=$1 RETURNING *", id);
     res.json({
       status: "success",
       message: "You destroyed the car",
-      result: result
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to delete car",
+      payload: null
+    })
   }
 };
 

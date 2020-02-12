@@ -10,7 +10,7 @@ const {
 carsRouter.get("/", getAllCars);
 carsRouter.get("/:id", getSingleCar);
 carsRouter.post("/", createCar);
-// carsRouter.delete("/cars/:id", deleteCar);
+carsRouter.delete("/:id", deleteCar);
 // carsRouter.put("/cars/:id", updateCarFeature);
 // carsRouter.patch("/cars/:id", updateCarFeature);
 
