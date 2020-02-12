@@ -9,7 +9,7 @@ const PORT = 6000;
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-const carsRouter = require('./queries/cars/cars');
+const carsRouter = require('./routes/cars/cars');
 const usersRouter = require('./routes/users/users');
 
 
