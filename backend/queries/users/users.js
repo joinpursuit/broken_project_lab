@@ -1,25 +1,29 @@
-const db = require("../../../db/index");
+const db = require("../../db/index");
 
-const getAllUsers = async (req, res, next) => {
+const getAllUsers = async (req, res, next) => {  
   try {
-    const users = await db.any("SELECT * FROM users");
+    let users = await db.any("SELECT * FROM users");
     res.json({
       status: "success",
       message: "all users",
-      users
+      payload: users
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to get all users",
+      payload: null
+    })
   }
 };
 
 const getSingleUser = async (req, res, next) => {
   try {
-    let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
+    let user = await db.one(`SELECT * FROM users WHERE id=${req.params.id}`);
     res.json({
       status: "success",
-      user,
-      message: "Received ONE user!"
+      message: "Received ONE user!",
+      payload: user,
     });
   } catch (err) {
     next(err);
@@ -29,7 +33,7 @@ const getSingleUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
-    await db.none("DELETE FROM pets WHERE id=$1", req.params.id);
+    await db.none("DELETE FROM users WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the user",
@@ -41,7 +45,7 @@ const deleteUser = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const user = await db.one(
+    let user = await db.one(
       "INSERT INTO users (username) VALUES(${username}) RETURNING *",
       req.body
     );
@@ -54,7 +58,6 @@ const createUser = async (req, res, next) => {
     next(err);
   }
 };
-
 
 
 module.exports = { getAllUsers, getSingleUser, deleteUser, createUser };
