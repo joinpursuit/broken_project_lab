@@ -4,10 +4,14 @@ const {
   getSingleCar,
   createCar,
   deleteCar,
-  updateCarFeature
+  updateCarFeature,
+  updateCar
 } = require("../../queries/cars/cars");
 
-carsRouter.get("/cars/", getAllCars);
+
+
+
+carsRouter.get("/", getAllCars);
 carsRouter.get("/cars/id", getSingleCar);
 carsRouter.post("/cars/", createCar);
 carsRouter.delete("/cars/:id", deleteCar);
