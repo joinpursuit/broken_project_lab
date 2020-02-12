@@ -11,6 +11,6 @@ usersRouter.get("/", getAllUsers);
 usersRouter.get("/:id", getSingleUser);
 usersRouter.delete("/:id", deleteUser);
 usersRouter.post("/", createUser)
-usersRouter.use("/:id/:cars", userCarRouter)
+usersRouter.use("/", userCarRouter)
 
 module.exports = usersRouter;
