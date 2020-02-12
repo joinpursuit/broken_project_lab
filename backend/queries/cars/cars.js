@@ -11,7 +11,7 @@ const getAllCars = async (req, res, next) => {
   } catch (err) {
     res.json({
       status: "error",
-      message: err,
+      message: "Unable to get all cars",
       payload: null
     });
   }
@@ -19,14 +19,19 @@ const getAllCars = async (req, res, next) => {
 
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let id = req.params.id
+    let car = await db.one("SELECT * FROM cars WHERE id = $1", id);
     res.json({
       status: "success",
-      car,
-      message: "Received ONE CAR!"
+      message: "Received ONE CAR!",
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "success",
+      message: "Unable to get one car",
+      payload: null
+    })
   }
 };
 

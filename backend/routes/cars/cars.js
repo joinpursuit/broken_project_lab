@@ -8,7 +8,7 @@ const {
 } = require("../../queries/cars/cars");
 
 carsRouter.get("/", getAllCars);
-// carsRouter.get("/cars/id", getSingleCar);
+carsRouter.get("/:id", getSingleCar);
 // carsRouter.post("/cars/", createCar);
 // carsRouter.delete("/cars/:id", deleteCar);
 // carsRouter.put("/cars/:id", updateCarFeature);
