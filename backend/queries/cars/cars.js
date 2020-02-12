@@ -2,7 +2,7 @@ const db = require("../../db/index");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    const cars = await db.any("SELECT * FROMS cars");
     res.json({
       status: "success",
       message: "all users",
@@ -50,7 +50,7 @@ const createCar = async (req, res, next) => {
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
     let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
@@ -114,4 +114,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { getAllCars, getSingleCar, createCar, deleteCar, updateCar, updateCarFeature };
