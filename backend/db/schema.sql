@@ -25,7 +25,7 @@ CREATE TABLE cars (
 
 
 
-INSERT INTO user (username) 
+INSERT INTO users (username) 
 VALUES 
 ('Corey'),
 ('Jon'), 
