@@ -39,7 +39,7 @@ const createCar = async (req, res, next) => {
       req.body
     );
     res.json({
-      status: "succss",
+      status: "success",
       message: "New car added"
     });
   } catch (err) {
@@ -67,7 +67,7 @@ const deleteCar = async (req, res, next) => {
 const updateCar = async (req, res, next) => {
   try {
     let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
+      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} WHERE id=${id} RETURNING *",
       {
         owner_id: parseInt(req.body.owner_id),
         brand: req.body.brand,
