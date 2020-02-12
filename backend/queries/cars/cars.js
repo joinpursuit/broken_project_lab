@@ -1,8 +1,9 @@
 const db = require("../../db/index");
 
 const getAllCars = async (req, res, next) => {
+  console.log(req)
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    const cars = db.any("SELECT * FROM cars");
     res.json({
       status: "success",
       message: "all users",
