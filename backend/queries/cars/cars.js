@@ -114,4 +114,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { createCar, deleteCar, updateCar, updateCarFeature, getSingleCar,getAllCars };

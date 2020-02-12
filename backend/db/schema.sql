@@ -1,10 +1,10 @@
-/c broken_project
+CREATE DATABASE broken_project; 
 
+DROP DATABASE IF EXISTS broken_project;
 
 DROP TABLE IF EXISTS cars; 
 
-DROP DATABASE IF EXISTS broken_project;
-CREATE DATABASE broken_project; 
+/c broken_project
 
 
 
@@ -15,7 +15,7 @@ CREATE TABLE cars (
     brand TEXT, 
     model TEXT,
     year INTEGER,
-    owner_id INT REFERENCES users(id) ON DELETE SET NUL
+    owner_id INT REFERENCES users(id) ON DELETE SET NULL
 )
 
 CREATE TABLE users (
@@ -26,7 +26,7 @@ CREATE TABLE users (
 
 
 
-INSERT INTO user (username) 
+INSERT INTO users (username) 
 VALUES 
 ('Corey'),
 ('Jon'), 
