@@ -1,87 +1,92 @@
-const db = require("../../db/index");
+const db = require("../../db/index.js");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    let cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
-      message: "all users",
-      users
+      message: "all cars",
+      payload: cars
     });
   } catch (err) {
-    // next(err);
     res.json({
       status: "error",
-      payload: null,
-      message: err
+      message: "Unable to get all cars",
+      payload: null
     });
   }
 };
 
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let id = req.params.id
+    let car = await db.one("SELECT * FROM cars WHERE id = $1", id);
     res.json({
       status: "success",
-      car,
-      message: "Received ONE CAR!"
+      message: "Received ONE CAR!",
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "success",
+      message: "Unable to get one car",
+      payload: null
+    })
   }
 };
 
 const createCar = async (req, res, next) => {
   try {
-    await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
-      req.body
-    );
+    let car = await db.one( "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${model}, ${year}, ${owner_id}) RETURNING *", req.body);
     res.json({
-      status: "succss",
-      message: "New car added"
+      status: "success",
+      message: "New car added",
+      payload: car
     });
   } catch (err) {
     res.json({
       status: "error",
-      payload: null,
-      message: err
+      message: "Unable to create car",
+      payload: null
     });
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
+    let id = req.params.id
+    let car = await db.one("DELETE FROM cars WHERE id=$1 RETURNING *", id);
     res.json({
       status: "success",
       message: "You destroyed the car",
-      result: result
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to delete car",
+      payload: null
+    })
   }
 };
 
 const updateCar = async (req, res, next) => {
   try {
+    let info = req.query
+    info["id"] = req.params.id
     let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
-      {
-        owner_id: parseInt(req.body.owner_id),
-        brand: req.body.brand,
-        year: parseInt(req.body.year),
-        model: req.body.model,
-        id: parseInt(req.params.id)
-      }
-    );
+      "UPDATE cars SET brand = ${brand}, model = ${model}, year = ${year}, owner_id = ${owner_id} WHERE id = ${id} RETURNING *", info);
     res.json({
       status: "success",
       message: "updated one car",
-      car
+      payload: car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "success",
+      message: "Unable to update car",
+      payload: null
+    })
   }
 };
 
@@ -99,19 +104,21 @@ const updateCarFeature = async (req, res, next) => {
     if (req.body.year && req.body.year.toLowerCase() === "null") {
       req.body.year = null;
     }
-
-    db.none(
+    db.one(
       "UPDATE cars SET " + queryString + " WHERE id=" + req.params.id,
       req.body
     );
-
     res.json({
       status: "success",
       message: "You Updated a CAR!"
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to update car",
+      payload: null
+    })
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { createCar, deleteCar, updateCar, updateCarFeature, getSingleCar,getAllCars };

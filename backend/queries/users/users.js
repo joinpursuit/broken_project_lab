@@ -1,60 +1,83 @@
-const db = require("../../../db/index");
+const db = require("../../db/index.js");
 
 const getAllUsers = async (req, res, next) => {
   try {
-    const users = await db.any("SELECT * FROM users");
+    let users = await db.any("SELECT * FROM users");
     res.json({
       status: "success",
       message: "all users",
-      users
+      payload: users
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "could not get all users",
+      payload:null
+    })
   }
 };
 
 const getSingleUser = async (req, res, next) => {
   try {
-    let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
+    let id = req.params.id
+    let user = await db.one("SELECT * FROM users WHERE id=$1",id);
     res.json({
       status: "success",
-      user,
-      message: "Received ONE user!"
+      message: "Received ONE user!",
+      payload: user
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "success",
+      message: "Unable to get one user",
+      payload: null
+    })
   }
 };
 
 
 const deleteUser = async (req, res, next) => {
   try {
-    await db.none("DELETE FROM pets WHERE id=$1", req.params.id);
+    let id = req.params.id
+    let car =await db.none("DELETE FROM users WHERE id=$1", id);
     res.json({
       status: "success",
       message: "You destroyed the user",
+      payload:car
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to delete user",
+      payload: null
+    })
   }
 };
 
 const createUser = async (req, res, next) => {
   try {
-    const user = await db.one(
+     let user = await db.one(
       "INSERT INTO users (username) VALUES(${username}) RETURNING *",
       req.body
     );
+
     res.json({
-      status: "succss",
+      status: "success",
       message: "New user added",
-      user
+      payload: user
     });
   } catch (err) {
-    next(err);
+    res.json({
+      status: "error",
+      message: "Unable to create user",
+      payload: null
+    });
   }
 };
 
 
 
-module.exports = { getAllUsers, getSingleUser, deleteUser, createUser };
+module.exports = { getAllUsers, getSingleUser
+   , deleteUser
+  , createUser 
+};

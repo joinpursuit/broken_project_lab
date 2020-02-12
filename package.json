@@ -1,0 +1,28 @@
+{
+  "name": "broken_project_lab",
+  "version": "1.0.0",
+  "description": "Corey stayed up all night writing code in a burst of inspiration! Unfortunately he didn't test a single  thing and kept falling asleep and spacing out. His hands were covered in sour cream so he made lots of typing errors, and he could barely think because his upstairs neighbors were throwing a party that went all night that he wasn't invited to. Things in his project weren't working at all but instead of addressing each bug as it appeared he just kept coding  with reckless abandon. Corey needs your help! The project is complete but nearly everything is broken. Pursuit fellow,  you're his only hope. Remember a programmer is only as good as they are at debugging.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DejaLFlynn/broken_project_lab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DejaLFlynn/broken_project_lab/issues"
+  },
+  "homepage": "https://github.com/DejaLFlynn/broken_project_lab#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "init": "^0.1.2",
+    "pg-promise": "^10.4.3"
+  },
+  "devDependencies": {}
+}
