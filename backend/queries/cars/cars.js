@@ -64,6 +64,8 @@ const deleteCar = async (req, res, next) => {
   }
 };
 
+
+
 const updateCar = async (req, res, next) => {
   try {
     let car = await db.one(
