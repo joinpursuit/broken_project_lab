@@ -46,7 +46,7 @@ const createUser = async (req, res, next) => {
       req.body
     );
     res.json({
-      status: "succss",
+      status: "success",
       message: "New user added",
       user
     });
