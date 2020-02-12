@@ -1,21 +1,23 @@
 const db = require("../../db/index");
 
-const getAllUsers = async (req, res, next) => {
+const getAllUsers = async (req, res,next) => {
   try {
-    const users = await db.any("SELECT * FROM users");
+    let users = await db.any("SELECT * FROM users");
+    console.log(users)
     res.json({
       status: "success",
       message: "all users",
       users
     });
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };
 
 const getSingleUser = async (req, res, next) => {
   try {
-    let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
+    let user = await db.one(`SELECT * FROM users WHERE id=$1`, [req.params.id]);
     res.json({
       status: "success",
       user,
@@ -29,7 +31,7 @@ const getSingleUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
-    await db.none("DELETE FROM pets WHERE id=$1", req.params.id);
+    await db.none("DELETE FROM users WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the user",
@@ -41,10 +43,7 @@ const deleteUser = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const user = await db.one(
-      "INSERT INTO users (username) VALUES(${username}) RETURNING *",
-      req.body
-    );
+    let user = await db.one("INSERT INTO users (username) VALUES(${username}) RETURNING *",req.body);
     res.json({
       status: "succss",
       message: "New user added",
