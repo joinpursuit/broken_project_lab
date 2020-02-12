@@ -37,19 +37,17 @@ const getSingleCar = async (req, res, next) => {
 
 const createCar = async (req, res, next) => {
   try {
-    await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
-      req.body
-    );
+    let car = await db.one( "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${model}, ${year}, ${owner_id}) RETURNING *", req.body);
     res.json({
-      status: "succss",
-      message: "New car added"
+      status: "success",
+      message: "New car added",
+      payload: car
     });
   } catch (err) {
     res.json({
       status: "error",
-      payload: null,
-      message: err
+      message: "Unable to create car",
+      payload: null
     });
   }
 };
