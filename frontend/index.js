@@ -15,13 +15,13 @@ const fetchData = async(url, cb, domEl) => {
 
 
 const fillUlWithCars = (data, domEl) => {
+debugger
     domEl.innerHTML = "";
-    debugger;
     data.cars.forEach(el => {
         let li = document.createElement("li");
         li.innerText = `Brand: ${el.brand}, Model: ${el.model}, Year: ${el.year}`;
+        domEl.appendChild(li)
     })
-    domEl.appendChild(li)
 }
 
 
@@ -35,7 +35,8 @@ const fillSelectBar =  (data, domEl) => {
     })
 }
     select.addEventListener("change", (e) => {
-        fetchData(`http://localhost:3000/users/${e.target.id}/cars`, fillUlWithCars, carsForOneUser)
+
+        fetchData(`http://localhost:3000/users/${e.target.value}/cars`, fillUlWithCars, carsForOneUser)
     })
     
     

@@ -15,11 +15,11 @@ const getAllUsers = async (req, res, next) => {
 
 const getSingleUser = async (req, res, next) => {
   try {
-    let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
+    let user = await db.one(`SELECT * FROM users WHERE id=${req.params.id}`);
     res.json({
       status: "success",
-      user,
-      message: "Received ONE user!"
+      message: "Received ONE user!",
+      user
     });
   } catch (err) {
     next(err);
