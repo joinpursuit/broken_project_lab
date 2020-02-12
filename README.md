@@ -23,18 +23,18 @@ This program should have an express server running and should use all the usual 
 
 ### It should have the following successful routes (make sure they all work): 
 
-* /cars - get all cars GET
-* /cars/:id - get single car GET
-* /cars - create car POST
-* /cars/:id - delete car DELETE 
-* /cars/:id - update car PUT 
+* /cars - get all cars GET *
+* /cars/:id - get single car GET *
+* /cars - create car POST *
+* /cars/:id - delete car DELETE *
+* /cars/:id - update car PUT *
 * /cars/:id - update only a specific car feature PATCH 
 
-* /users - get all users GET 
-* /users/:id - get single user GET 
-* /users/:id - delete single user DELETE 
-* /users - create user POST 
-* /users/:id/cars - get all cars for a specific user GET
+* /users - get all users GET *
+* /users/:id - get single user GET *
+* /users/:id - delete single user DELETE *
+* /users - create user POST *
+* /users/:id/cars - get all cars for a specific user GET*
 
 On your frontend you should see an entire list of all cars, and a select bar filled with users. 
 When a user is selected another list of cars for that specific user should appear. 
