@@ -50,7 +50,7 @@ const createCar = async (req, res, next) => {
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
     let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
