@@ -1,19 +1,18 @@
-const db = require("../../db/index");
+const db = require("../../db/index.js");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    let cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
-      message: "all users",
-      users
+      message: "all cars",
+      payload: cars
     });
   } catch (err) {
-    // next(err);
     res.json({
       status: "error",
-      payload: null,
-      message: err
+      message: err,
+      payload: null
     });
   }
 };
@@ -50,7 +49,7 @@ const createCar = async (req, res, next) => {
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
     let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
