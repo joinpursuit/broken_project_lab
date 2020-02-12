@@ -1,24 +1,25 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body_parser');
-
-const PORT = 6000; 
-const carsRouter = require('./queries/cars/cars');
+const bodyParser = require('body-parser');
+const port = 3000;
+const app = express();
+const carsRouter = require('./routes/cars/cars');
 const usersRouter = require('./routes/users/users');
 
-
-app.use('/cars', usersRouter);
-app.use('/users', usersRouter)
-app.use(cors);
-
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use((err, req, res, next) => {
-    res.status(500).json({
-        err
-    })
+    if (err.status) {
+        res.status(err.status).json(err.error)
+    } else {
+        res.json(err)
+    }
 })
-const app = express(); 
+app.use('/cars', carsRouter);
+app.use('/users', usersRouter)
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.listen(PORT, () => console.log("Listening"));
+app.listen(port, () => console.log("Listening"));
