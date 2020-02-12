@@ -2,11 +2,11 @@ const db = require("../../db/index");
 
 const getAllCars = async (req, res, next) => {
   try {
-    const cars = db.any("SELECT * FROMS cars");
+    let cars = await db.any("SELECT * FROM cars");
     res.json({
       status: "success",
       message: "all users",
-      users
+      cars
     });
   } catch (err) {
     // next(err);
@@ -18,9 +18,10 @@ const getAllCars = async (req, res, next) => {
   }
 };
 
+
 const getSingleCar = async (req, res, next) => {
   try {
-    let car = await db.one("SELECT * FROM users WHERE id=$1", [req.params.car]);
+    let car = await db.one("SELECT * FROM cars WHERE id=$1", [req.params.id]);
     res.json({
       status: "success",
       car,
@@ -34,11 +35,11 @@ const getSingleCar = async (req, res, next) => {
 const createCar = async (req, res, next) => {
   try {
     await db.none(
-      "INSERT INTO cars (brand, model, year, owner_id) VALUES(${brand}, ${year}, ${model}, ${owner_id} )",
+      "INSERT INTO cars (brand, model, year, owner_id) VALUES (${brand}, ${model}, ${year}, ${owner_id})",
       req.body
     );
     res.json({
-      status: "succss",
+      status: "success",
       message: "New car added"
     });
   } catch (err) {
@@ -50,9 +51,9 @@ const createCar = async (req, res, next) => {
   }
 };
 
-const deleteCar = (req, res, next) => {
+const deleteCar = async (req, res, next) => {
   try {
-    let result = await db.result("DELETE FROM cars WHERE id=$1", req.params.id);
+    let result = await db.one("DELETE FROM cars WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the car",
@@ -66,7 +67,7 @@ const deleteCar = (req, res, next) => {
 const updateCar = async (req, res, next) => {
   try {
     let car = await db.one(
-      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} RETURNING *",
+      "UPDATE cars SET brand=${brand}, model=${model}, year=${year}, owner_id=${owner_id} WHERE id=${id} RETURNING *",
       {
         owner_id: parseInt(req.body.owner_id),
         brand: req.body.brand,
@@ -114,4 +115,4 @@ const updateCarFeature = async (req, res, next) => {
   }
 };
 
-module.exports = { createCar, deleteCar, updateCar, updateCarFeature };
+module.exports = { createCar, deleteCar, updateCar, updateCarFeature, getAllCars, getSingleCar};
