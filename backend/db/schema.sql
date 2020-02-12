@@ -7,8 +7,14 @@ CREATE DATABASE broken_project;
 
 \c broken_project;
 
-DROP TABLE IF EXISTS cars; 
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS cars; 
+
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY, 
+    username TEXT NOT NULL UNIQUE
+);
 
 CREATE TABLE cars (
     id SERIAL PRIMARY KEY, 
@@ -16,11 +22,6 @@ CREATE TABLE cars (
     model TEXT,
     year INT,
     owner_id INT REFERENCES users(id) ON DELETE SET NULL
-);
-
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY, 
-    username TEXT NOT NULL UNIQUE
 );
 
 
@@ -33,10 +34,10 @@ VALUES
 ('Jhenya'),
 ('Celine');
 
--- INSERT INTO cars (brand, model, year, owner_id)
--- VALUES
--- ('Toyota', 'Camry', 1995, 1), 
--- ('Toyota', '4Runner', 1990, 1), 
--- ('Ford', 'Mustang', 1964, 2),
--- ('Ford', 'Explorer', 2005, 3),
--- ('Ford', 'Bronco', 2019, 3);
+INSERT INTO cars (brand, model, year, owner_id)
+VALUES
+('Toyota', 'Camry', 1995, 1), 
+('Toyota', '4Runner', 1990, 1), 
+('Ford', 'Mustang', 1964, 2),
+('Ford', 'Explorer', 2005, 3),
+('Ford', 'Bronco', 2019, 3);
