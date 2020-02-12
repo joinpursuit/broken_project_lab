@@ -3,9 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express(); 
 
-const port = 6000; 
-const carsRouter = require('./routes/cars/cars');
-const usersRouter = require('./routes/users/users');
+const port = 3000; 
+const carsRouter = require('./backend/routes/cars/cars');
+const usersRouter = require('./backend/routes/users/users');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
