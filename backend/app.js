@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const port = 3000;
 const app = express();
 const carsRouter = require('./routes/cars/cars');
-// const usersRouter = require('./routes/users/users');
+const usersRouter = require('./routes/users/users');
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -17,7 +17,7 @@ app.use((err, req, res, next) => {
     }
 })
 app.use('/cars', carsRouter);
-// app.use('/users', usersRouter)
+app.use('/users', usersRouter)
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
