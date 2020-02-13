@@ -1,4 +1,4 @@
-const db = require("../../../db/index");
+const db = require("../../db/index");
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -6,7 +6,7 @@ const getAllUsers = async (req, res, next) => {
     res.json({
       status: "success",
       message: "all users",
-      users
+      payload: users
     });
   } catch (err) {
     next(err);
@@ -15,7 +15,7 @@ const getAllUsers = async (req, res, next) => {
 
 const getSingleUser = async (req, res, next) => {
   try {
-    let user = await db.one(`SELECT * FROM users WHERE id=${id}`);
+    let user = await db.one("SELECT * FROM users WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       user,
@@ -29,7 +29,7 @@ const getSingleUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
-    await db.none("DELETE FROM pets WHERE id=$1", req.params.id);
+    await db.none("DELETE FROM users WHERE id=$1", req.params.id);
     res.json({
       status: "success",
       message: "You destroyed the user",

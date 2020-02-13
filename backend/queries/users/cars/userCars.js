@@ -7,9 +7,9 @@ const allCarsForOneUser = async (req, res, next) => {
         res.json({
             status: "success", 
             message: "All cars for ONE user",
-            cars
+            payload:cars
         })
-    } catch (error) {
+    } catch (err) {
         next(err);        
     }
 
